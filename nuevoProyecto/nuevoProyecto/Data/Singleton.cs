@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using nuevoProyecto.Models;
+using System.IO;
 namespace nuevoProyecto.Data
 {
     public class Singleton
@@ -38,15 +39,15 @@ namespace nuevoProyecto.Data
             PalabrasReservadas[6] = "Insert Into";
             PalabrasReservadas[7] = "Value";
             PalabrasReservadas[8] = "Go";
-            PalabrasCustom[0] = "Select";
-            PalabrasCustom[1] = "From";
-            PalabrasCustom[2] = "Delete";
-            PalabrasCustom[3] = "Where";
-            PalabrasCustom[4] = "Create Table";
-            PalabrasCustom[5] = "Drop Table";
-            PalabrasCustom[6] = "Insert Into";
-            PalabrasCustom[7] = "Value";
-            PalabrasCustom[8] = "Go";
+            //PalabrasCustom[0] = "Select";
+            //PalabrasCustom[1] = "From";
+            //PalabrasCustom[2] = "Delete";
+            //PalabrasCustom[3] = "Where";
+            //PalabrasCustom[4] = "Create Table";
+            //PalabrasCustom[5] = "Drop Table";
+            //PalabrasCustom[6] = "Insert Into";
+            //PalabrasCustom[7] = "Value";
+            //PalabrasCustom[8] = "Go";
         }
         #endregion
 
@@ -243,9 +244,8 @@ namespace nuevoProyecto.Data
             string[] Arreglo = captura.Split(' ');
             foreach (string Palabra in Arreglo)
             {
-                #region Listos
-
-                string Concatenada = Palabra + " " + Arreglo[1];
+                #region Listos             
+                 string Concatenada = Palabra + " " + Arreglo[1];
                 if (Concatenada == PalabrasCustom[4])// create Table
                 {
                     try
@@ -350,6 +350,20 @@ namespace nuevoProyecto.Data
                 }//Delete From <Tabla> Where Id//Aplicar delete del arbol PENDIENTE
               
                 break;
+            }
+        }
+        public void LlenarPalabrasReservadas(string operacion)
+        {
+            StreamReader File = new StreamReader(operacion);
+            var linea = File.ReadLine();
+            int n = 0;
+            while (linea != null)
+            {
+                string[] Aux = linea.Split(',');
+                PalabrasReservadas[n] = Aux[0];//pre coma
+                PalabrasCustom[n] = Aux[1];//post coma
+                n++;
+                linea = File.ReadLine();
             }
         }
 

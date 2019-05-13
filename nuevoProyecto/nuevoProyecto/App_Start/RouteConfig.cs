@@ -16,7 +16,7 @@ namespace nuevoProyecto
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "MiniSQL", action = "Consola", id = UrlParameter.Optional }
+                defaults: new { controller = "MiniSQL", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

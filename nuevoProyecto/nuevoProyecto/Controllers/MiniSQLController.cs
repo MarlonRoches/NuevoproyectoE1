@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using nuevoProyecto.Data;
 using nuevoProyecto.Models;
+using System.IO;
 
 namespace nuevoProyecto.Controllers
 {
@@ -59,6 +60,127 @@ namespace nuevoProyecto.Controllers
         public ActionResult DataGrid( string Tabla)
         {
             return View(Singleton.Instance.pruema);
+        }
+        public ActionResult Index(HttpPostedFileBase postedFile)
+        {
+            string filePath = string.Empty;
+            if (postedFile != null)
+            {
+                string path = Server.MapPath("~/archivo/");
+                if (!Directory.Exists(path))
+                {
+                    Directory.CreateDirectory(path);
+                }
+                filePath = path + Path.GetFileName(postedFile.FileName);
+                if (Singleton.Instance.Ini == true)
+                {
+                    Singleton.Instance.LlenarPalabrasReservadas("C:/Users/Usuario/Documents/NuevoproyectoE1/nuevoProyecto/KeyWords.txt");
+                    Singleton.Instance.Ini = false;
+                    return RedirectToAction("Consola");
+                }
+            }
+
+            return View();
+        }
+        public ActionResult Reservada()
+        {
+            Singleton.Instance.LlenarPalabrasReservadas("C:/Users/Usuario/Documents/NuevoproyectoE1/nuevoProyecto/KeyWords.txt");
+            return View("Consola");
+        }
+        public ActionResult CambiarPalabras()
+        {
+            return View();
+        }
+        [HttpPost]
+        public ActionResult CambiarPalabras(FormCollection collection)
+        {
+
+            try
+            {
+                //logica
+                //igualar al custom
+                if (collection["Select"] == "" || collection["Select"] == null)
+                {
+
+                }
+                else
+                {
+                    Singleton.Instance.PalabrasCustom[0] = collection["Select"];
+                }
+                if (collection["From"] == "" || collection["From"] == null)
+                {
+
+                }
+                else
+                {
+                    Singleton.Instance.PalabrasCustom[1] = collection["From"];
+                }
+                if (collection["Delete"] == "" || collection["Delete"] == null)
+                {
+
+                }
+                else
+                {
+
+                    Singleton.Instance.PalabrasCustom[2] = collection["Delete"];
+                }
+                if (collection["Where"] == "" || collection["Where"] == null)
+                {
+
+                }
+                else
+                {
+                    Singleton.Instance.PalabrasCustom[3] = collection["Where"];
+                }
+                if (collection["CreateTable"] == "" || collection["CreateTable"] == null)
+                {
+
+                }
+                else
+                {
+                    Singleton.Instance.PalabrasCustom[4] = collection["Create"];
+                }
+                if (collection["DropTable"] == "" || collection["DropTable"] == null)
+                {
+
+                }
+                else
+                {
+
+                    Singleton.Instance.PalabrasCustom[5] = collection["DropTable"];
+                }
+                if (collection["InsertInto"] == "" || collection["InsertInto"] == null)
+                {
+
+                }
+                else
+                {
+                    Singleton.Instance.PalabrasCustom[6] = collection["InsertInto"];
+
+                }
+                if (collection["Value"] == "" || collection["Value"] == null)
+                {
+
+                }
+                else
+                {
+                    Singleton.Instance.PalabrasCustom[7] = collection["Value"];
+                }
+                if (collection["Go"] == "" || collection["Go"] == null)
+                {
+
+                }
+                else
+                {
+                   Singleton.Instance.PalabrasCustom[8] = collection["Go"];
+                }
+
+                return RedirectToAction("Consola");
+            }
+            catch
+            {
+                return View();
+            }
         }
 
     }
