@@ -57,9 +57,10 @@ namespace nuevoProyecto.Controllers
         {
             return View(Singleton.Instance.TreeView());
         }
-        public ActionResult DataGrid( string Tabla)
+        public ActionResult DataGrid(string llave)
         {
-            return View(Singleton.Instance.pruema);
+
+            return View(Singleton.Instance.DevolverObjeto(llave));
         }
         public ActionResult Index(HttpPostedFileBase postedFile)
         {
@@ -87,7 +88,7 @@ namespace nuevoProyecto.Controllers
         }
         public ActionResult Reservada()
         {
-            Singleton.Instance.LlenarPalabrasReservadas("C:/Users/Usuario/Documents/NuevoproyectoE1/nuevoProyecto/KeyWords.txt");
+            Singleton.Instance.LlenarPalabrasReservadas("C:/Users/roche/Desktop/NuevoproyectoE1/nuevoProyecto/KeyWords.txt");
             return View("Consola");
         }
         public ActionResult CambiarPalabras()

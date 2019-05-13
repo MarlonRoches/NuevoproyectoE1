@@ -44,6 +44,26 @@ namespace nuevoProyecto.Data
         #endregion
 
         #region Listo
+
+        public void LlenarPalabrasReservadas(string operacion)
+        {
+            StreamReader File = new StreamReader(operacion);
+            var linea = File.ReadLine();
+            int n = 0;
+            while (linea != null)
+            {
+                string[] Aux = linea.Split(',');
+                PalabrasReservadas[n] = Aux[0];//pre coma
+                PalabrasCustom[n] = Aux[1];//post coma
+                n++;
+                linea = File.ReadLine();
+            }
+        }
+
+
+
+
+
         public void Creat_Table(string llave, Dictionary<string, string> Variables)
         {   //Agregar Arbol B
             var Nuevo = new ArbolB();
@@ -53,6 +73,13 @@ namespace nuevoProyecto.Data
             var ListaNueva = new List<Global>();
             DiBPlus.Add(llave, ListaNueva);
         }
+
+        public List<Global> DevolverObjeto(string llave)
+        {
+
+            return DiBPlus[llave];
+        }
+
         public Dictionary<string, string> SplitCreate(string Texto)
         {
             var Diccionario = new Dictionary<string, string>();
@@ -298,31 +325,43 @@ namespace nuevoProyecto.Data
                         {
                             case "*": // * PENIENTE
 
-                                if (split[split.Length - 4] == "where" || split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
+                                if (split[split.Length - 4] == PalabrasCustom[4] || split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
                                 {
-
                                 }
                                 else
                                 {
 
+                                var Tabla = captura.Split(' ')[captura.Split(' ').Length-1];
+                                Star(Tabla);
                                 }
                                 break;
-                            default: // CAMPO
-                                if (split[split.Length-4]=="where" || split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
+                            default: // CAMPO Where ...
+                                if (split[split.Length-4]==PalabrasCustom[4]|| split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
                                 {//where
-                                    var VarialesSelect = captura;
-                                    var index1 = VarialesSelect.IndexOf(" ");
-                                    var index2 = VarialesSelect.IndexOf("From"); //cortar hasta el from
-                                    var indexigual = VarialesSelect.IndexOf("Where");
-                                    VarialesSelect = VarialesSelect.Substring(index1+1,index2-8);
-                                    var wheredato = captura;
-                                    var where = wheredato.Substring(indexigual, wheredato.Length);///obtener despues del where
-                                    var CampoABuscar = 0;
-                                    
+
+                                #region Split
+                                var VarialesSelect = captura;
+                                var index1 = VarialesSelect.IndexOf(" ");
+                                var index2 = VarialesSelect.IndexOf(PalabrasCustom[1]); //cortar hasta el from
+                                var indexigual = VarialesSelect.IndexOf(PalabrasCustom[3]);
+                                VarialesSelect = VarialesSelect.Substring(index1 + 1, index2 - 8);
+                                var wheredato = captura;
+                                var pos1 = (indexigual + PalabrasCustom[3].Length) + 1;
+                                var Variable_Clave = (wheredato.Remove(0, pos1)).Split(' ');///obtener despues del where
+
+                                var Tabla = (captura.Remove(0, (index2 + PalabrasCustom[1].Length + 1))).Split(' ')[0];
+
+                                #endregion
+
+                                DataWhere(Tabla, VarialesSelect,Variable_Clave);
 
                                 }
                                 else//simple
                                 {
+                                var Sinselect = captura.Remove(0, captura.IndexOf(' ') + 1);
+                                var Variables = Sinselect.Substring(0,Sinselect.IndexOf(PalabrasCustom[1]));
+                                var Tabla = Sinselect.Remove(0, Sinselect.IndexOf(PalabrasCustom[1])).Split(' ')[1];
+                                Data(Tabla,Variables);
                                 }
                                 break;
                         }
@@ -343,38 +382,23 @@ namespace nuevoProyecto.Data
                 break;
             }
         }
-        public void LlenarPalabrasReservadas(string operacion)
-        {
-            StreamReader File = new StreamReader(operacion);
-            var linea = File.ReadLine();
-            int n = 0;
-            while (linea != null)
-            {
-                string[] Aux = linea.Split(',');
-                PalabrasReservadas[n] = Aux[0];//pre coma
-                PalabrasCustom[n] = Aux[1];//post coma
-                n++;
-                linea = File.ReadLine();
-            }
-        }
-
-
+        
         #region SelectMetodos
         //Casos Select
-        public void Star() //*
+        public void Star(string tabla) //*
         {
 
         }
-        public void StarWhere()//*Where
+        public void StarWhere(string tabla, string datoclave)//*Where
         {
 
         }
 
-        public void Data()//campos
+        public void Data(string tabla, string variables)//campos    recibe
         {
 
         }
-        public void DataWhere()//campos*
+        public void DataWhere(string tabla,string variables, string[] Clave)//campos*    recibe
         {
 
         }

@@ -23,7 +23,7 @@
             @Html.DisplayFor(modelItem => item.Tabla)
         </td>
         <td>
-            @Html.ActionLink("VerTabla", "DataGrid", new {  Tabla =item.Tabla }) 
+            @Html.ActionLink("VerTabla", "DataGrid", new { llave = item.Tabla }) 
         </td>
     </tr>
 }
