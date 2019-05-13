@@ -232,7 +232,7 @@ namespace nuevoProyecto.Data
 
         public void Input(string captura)
         {
-           
+           //listo
             string[] Arreglo = captura.Split(' ');
             foreach (string Palabra in Arreglo)
             {
