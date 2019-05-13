@@ -298,11 +298,10 @@ namespace nuevoProyecto.Data
 
                 #endregion
 
-
                 if (Palabra == PalabrasCustom[0])
                 {
-                    try
-                    {
+                   // try
+                    //{
                         var split = Arreglo;
                         switch (split[1])
                         {
@@ -319,28 +318,37 @@ namespace nuevoProyecto.Data
                                 break;
                             default: // CAMPO
                                 if (split[split.Length-4]=="where" || split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
-                                {
+                                {//where
+                                    var VarialesSelect = captura;
+                                    var index1 = VarialesSelect.IndexOf(" ");
+                                    var index2 = VarialesSelect.IndexOf("From"); //cortar hasta el from
+                                    var indexigual = VarialesSelect.IndexOf("Where");
+                                    VarialesSelect = VarialesSelect.Substring(index1+1,index2-8);
+                                    var wheredato = captura;
+                                    var where = wheredato.Substring(indexigual, wheredato.Length);///obtener despues del where
+                                    var CampoABuscar = 0;
+                                    
 
                                 }
-                                else
+                                else//simple
                                 {
-
                                 }
                                 break;
                         }
-                    }
-                    catch (Exception)
-                    {
+                   // }
+                    //catch (Exception)
+                    //{
 
-                        throw;
-                    }
-                }// Select
+                        //throw;
+                   // }
+                }// Select PENDIENTE
                 if (Concatenada == PalabrasCustom[2])
                 {
 
                     // Delete_From(arreglo[2], int.Parse(arreglo[arreglo.Length - 2]));
 
-                }//Delete From <Tabla> Where Id//Aplicar delete del arbol
+                }//Delete From <Tabla> Where Id//Aplicar delete del arbol PENDIENTE
+              
                 break;
             }
         }

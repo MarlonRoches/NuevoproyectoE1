@@ -41,16 +41,16 @@ namespace nuevoProyecto.Controllers
         public ActionResult Consola(FormCollection collection)
         {
             Singleton.Instance.Palabras_Reservadas();
-            try
-            {
+            //try
+            //{
                 //Enviar a singletone
                 Singleton.Instance.Input(collection["Data"]);
                 return RedirectToAction("Consola");
-            }
-            catch
-            {
-                return View();
-            }
+            //}
+            //catch
+            //{
+            //    return View();
+            //}
         }  // GET: MiniSQL/Create
         public ActionResult TreeView()
         {
