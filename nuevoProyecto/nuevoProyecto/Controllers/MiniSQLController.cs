@@ -56,7 +56,10 @@ namespace nuevoProyecto.Controllers
         {
             return View(Singleton.Instance.TreeView());
         }
+        public ActionResult DataGrid( string Tabla)
+        {
+            return View(Singleton.Instance.pruema);
+        }
 
-        
     }
 }

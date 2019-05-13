@@ -177,6 +177,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\MiniSQL\Consola.cshtml" />
     <Content Include="Views\MiniSQL\TreeView.cshtml" />
+    <Content Include="Views\MiniSQL\DataGrid.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

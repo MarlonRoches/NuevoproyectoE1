@@ -23,6 +23,8 @@ namespace nuevoProyecto.Data
         public LinkedList<Global> ListaVehiculos = new LinkedList<Global>();
         public List<Global> SelectLista = new List<Global>();
         public string[] PalabrasReservadas = new string[9];
+        public List<Global> pruema = new List<Global>();
+
 
         public string[] PalabrasCustom = new string[9];
         public void Palabras_Reservadas()
@@ -47,6 +49,7 @@ namespace nuevoProyecto.Data
             PalabrasCustom[8] = "Go";
         }
         #endregion
+
         #region Listo
         public void Creat_Table(string llave, Dictionary<string, string> Variables)
         {   //Agregar Arbol B
@@ -83,8 +86,6 @@ namespace nuevoProyecto.Data
             }
             return Devolver;
         }
-        #endregion
-
         public void Insert_Into(Global Objeto)
         {
 
@@ -107,6 +108,134 @@ namespace nuevoProyecto.Data
 
             }
         }
+        internal Global LlenarObjeto(string Variables, string Valores, string Tabla)
+        {
+            var Objeto = new Global(); int n = 0;
+            //split-------------------------------------------------------
+            #region Split
+            Variables = Variables.Substring(1, Variables.Length - 1);
+            var arrayLlaves = Variables.Split(','); var ULTIMAPOS = arrayLlaves[arrayLlaves.Length - 1].Substring(0, arrayLlaves[arrayLlaves.Length - 1].Length - 1);
+            arrayLlaves[arrayLlaves.Length - 1] = ULTIMAPOS;
+            Valores = Valores.Substring(1, Valores.Length - 1);
+            var arrayDatos = Valores.Split(',');
+            for (int i = 0; i < arrayDatos.Length - 1; i++)
+            {
+                if (arrayDatos[i].Substring(0, 1) == "'")
+                {
+                    var aux = arrayDatos[i].Substring(1, arrayDatos[i].Length - 3);
+                    arrayDatos[i] = aux;
+                    var Thor = arrayLlaves[i - 1];
+
+                }
+            }
+            ULTIMAPOS = arrayDatos[arrayDatos.Length - 1].Substring(0, arrayDatos[arrayDatos.Length - 1].Length - 1);
+            arrayDatos[arrayDatos.Length - 1] = ULTIMAPOS;
+            Objeto.Tabla = Tabla;
+            var x = arrayDatos[0];
+            Objeto.Id = x;
+            #endregion
+
+            /// asignar valores
+            var Llaves = arrayLlaves;
+            var Datos = arrayDatos;
+            var diccionario = DiB[Tabla].Diccionario();
+            int Contador = 0;
+
+            if (DiBPlus.ContainsKey(Tabla) == true) //validacion de si existe o no
+            {
+                foreach (var variable in Llaves)
+                {
+                    var nombre = diccionario[variable];
+                    if (diccionario[variable] == "int" ||
+                        diccionario[variable] == "INT" ||
+                        diccionario[variable] == "Int")
+                    {
+                        AsignarInt(Objeto, Datos[Contador]);
+                    }
+                    else if (diccionario[variable] == nombre && nombre != "DATETIME" && nombre != "INT")
+                    {
+                        AsignarVC(Objeto, Datos[Contador]);
+                    }
+                    else if (diccionario[variable] == "DateTime" ||
+                             diccionario[variable] == "DATETIME" ||
+                             diccionario[variable] == "datetime"
+                             )
+                    {
+                        AsignarDT(Objeto, Datos[Contador]);
+                    }
+                    Contador++;
+                }
+
+            }
+
+            return Objeto;
+        }
+        private void AsignarDT(Global objeto, string dato)
+        {
+            if (objeto.DT1 == "")
+            {
+                objeto.DT1 = dato;
+            }
+            else if (objeto.DT2 == "" && objeto.DT1 != "")
+            {
+                objeto.DT2 = dato;
+
+            }
+            else if (objeto.DT3 == "" && objeto.DT2 != "" && objeto.DT1 != "")
+            {
+                objeto.DT3 = dato;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+        private void AsignarVC(Global objeto, string dato)
+        {
+            if (objeto.VarChar1 == "")
+            {
+                objeto.VarChar1 = dato;
+
+            }
+            else if (objeto.VarChar2 == "" && objeto.VarChar1 != "")
+            {
+                objeto.VarChar2 = dato;
+
+            }
+            else if (objeto.VarChar3 == "" && objeto.VarChar2 != "" && objeto.VarChar1 != "")
+            {
+                objeto.VarChar3 = dato;
+
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+        private void AsignarInt(Global objeto, string dato)
+        {
+            if (objeto.Int1 == "")
+            {
+                objeto.Int1 = dato;
+
+            }
+            else if (objeto.Int2 == "" && objeto.Int1 != "")
+            {
+                objeto.Int2 = dato;
+
+            }
+            else if (objeto.Int3 == "" && objeto.Int2 != "" && objeto.Int1 != "")
+            {
+                objeto.Int3 = dato;
+
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        #endregion
 
         public void Input(string Linea)
         {
@@ -147,7 +276,23 @@ namespace nuevoProyecto.Data
 
                         throw;
                     }
-                }// Drop Table ------------------ LISTO -----------------------------
+                }// Drop Table   ------------------ LISTO -----------------------------
+                if (Concatenada == PalabrasCustom[6]) //Insert 
+                {
+                    string Key = arreglo[2];//llave para el diccionario
+                     Global Nuevo = LlenarObjeto(arreglo[3], arreglo[5], Key);
+                    try
+                    {
+                        
+                       Insert_Into(Nuevo);
+
+                    }
+                    catch (Exception)
+                    {
+
+                        throw;
+                    }
+                } //Insert Into  ------------------ LISTO -----------------------------
 
 
 
@@ -200,155 +345,9 @@ namespace nuevoProyecto.Data
                     // Delete_From(arreglo[2], int.Parse(arreglo[arreglo.Length - 2]));
 
                 }//Delete From <Tabla> Where Id//Aplicar delete del arbol
-                if (Concatenada == PalabrasCustom[6]) //Insert 
-                {
-                    string Key = arreglo[2];//llave para el diccionario
-                     Global Nuevo = LlenarObjeto(arreglo[3], arreglo[5], Key);
-                    try
-                    {
-                        
-                       Insert_Into(Nuevo);
-
-                    }
-                    catch (Exception)
-                    {
-
-                        throw;
-                    }
-                } //Insert Into
                 break;
             }
 
-        }
-        internal Global LlenarObjeto(string Variables, string Valores, string Tabla)
-        {
-            var Objeto = new Global();int n = 0;
-            //split-------------------------------------------------------
-            #region Split
-            Variables = Variables.Substring(1, Variables.Length - 1);
-            var arrayLlaves = Variables.Split(','); var ULTIMAPOS = arrayLlaves[arrayLlaves.Length - 1].Substring(0, arrayLlaves[arrayLlaves.Length - 1].Length - 1);
-            arrayLlaves[arrayLlaves.Length - 1] = ULTIMAPOS;
-            Valores = Valores.Substring(1, Valores.Length - 1);
-            var arrayDatos = Valores.Split(',');
-            for (int i = 0; i < arrayDatos.Length - 1; i++)
-            {
-                if (arrayDatos[i].Substring(0, 1) == "'")
-                {
-                    var aux = arrayDatos[i].Substring(1, arrayDatos[i].Length - 3);
-                    arrayDatos[i] = aux;
-                    var Thor = arrayLlaves[i - 1];
-
-                }
-            }
-            ULTIMAPOS = arrayDatos[arrayDatos.Length - 1].Substring(0, arrayDatos[arrayDatos.Length - 1].Length - 1);
-            arrayDatos[arrayDatos.Length - 1] = ULTIMAPOS;
-            Objeto.Tabla = Tabla;
-            var x = arrayDatos[0];
-            Objeto.Id = x;
-            #endregion
-
-            /// asignar valores
-            var Llaves = arrayLlaves;
-            var Datos = arrayDatos;
-            var diccionario = DiB[Tabla].Diccionario();
-            int Contador = 0;
-
-            if (DiBPlus.ContainsKey(Tabla)==true) //validacion de si existe o no
-            {
-                foreach (var variable in Llaves)
-                {
-                    var nombre = diccionario[variable];
-                    if (diccionario[variable] == "int"||
-                        diccionario[variable] == "INT" ||
-                        diccionario[variable] == "Int")
-                    {
-                        AsignarInt(Objeto, Datos[Contador]);
-                    } 
-                    else if (diccionario[variable]  == nombre && nombre != "DATETIME" && nombre != "INT")
-                         {
-                             AsignarVC(Objeto, Datos[Contador]);
-                         }
-                    else if (diccionario[variable] == "DateTime" ||
-                             diccionario[variable] == "DATETIME" ||
-                             diccionario[variable] == "datetime"  
-                             )
-                         {
-                              AsignarDT(Objeto, Datos[Contador]);
-                         }
-                    Contador++;
-                }
-
-            }
-
-            return Objeto;
-        }
-
-        private void AsignarDT(Global objeto, string dato)
-        {
-            if (objeto.DT1 == "")
-            {
-                objeto.DT1 = dato;
-            }
-            else if (objeto.DT2 == "" && objeto.DT1 != "")
-            {
-                objeto.DT2 = dato;
-
-            }
-            else if (objeto.DT3 == "" && objeto.DT2 != "" && objeto.DT1 != "")
-            {
-                objeto.DT3 = dato;
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-    
-
-        private void AsignarVC(Global objeto, string dato)
-        {
-            if (objeto.VarChar1 == "")
-            {
-                objeto.VarChar1 = dato;
-
-            }
-           else if (objeto.VarChar2 == ""&& objeto.VarChar1 != "")
-            {
-                objeto.VarChar2 = dato;
-
-            }
-           else if (objeto.VarChar3 == ""&& objeto.VarChar2 != "" && objeto.VarChar1 != "")
-            {
-                objeto.VarChar3 = dato;
-
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        private void AsignarInt(Global objeto, string dato)
-        {
-            if (objeto.Int1 == "")
-            {
-                objeto.Int1 = dato;
-
-            }
-           else if (objeto.Int2 == "" && objeto.Int1 != "")
-            {
-                objeto.Int2 = dato;
-
-            }
-          else  if (objeto.Int3 == "" && objeto.Int2 != "" && objeto.Int1 != "")
-            {
-                objeto.Int3 = dato;
-
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
         }
     }
 }
