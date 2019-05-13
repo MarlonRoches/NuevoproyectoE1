@@ -378,10 +378,20 @@ namespace nuevoProyecto.Data
                         //throw;
                    // }
                 }// Select PENDIENTE
-                if (Concatenada == PalabrasCustom[2])
+                if (Concatenada == PalabrasCustom[2])//Delete From 
                 {
-
-                    // Delete_From(arreglo[2], int.Parse(arreglo[arreglo.Length - 2]));
+                    string llave = Arreglo[2];
+                    if (DiB.ContainsKey(llave))
+                    {
+                        
+                    }
+                    if (DiB.ContainsKey(llave) && Arreglo[3] == PalabrasCustom[3])
+                    {
+                       // Global Elemento = Arreglo[4];
+                        //DiBPlus.FirstOrDefault(t => t.Key == llave).Value.RemoveAll("");
+                      
+                    }
+                    
 
                 }//Delete From <Tabla> Where Id//Aplicar delete del arbol PENDIENTE
               

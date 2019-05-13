@@ -88,7 +88,7 @@ namespace nuevoProyecto.Controllers
         }
         public ActionResult Reservada()
         {
-            Singleton.Instance.LlenarPalabrasReservadas("C:/Users/roche/Desktop/NuevoproyectoE1/nuevoProyecto/KeyWords.txt");
+            Singleton.Instance.LlenarPalabrasReservadas("C:/Users/Usuario/Documents/NuevoproyectoE1/nuevoProyecto/KeyWords.txt");
             return View("Consola");
         }
         public ActionResult CambiarPalabras()
