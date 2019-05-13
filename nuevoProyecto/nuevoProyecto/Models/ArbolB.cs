@@ -19,7 +19,11 @@ namespace nuevoProyecto.Models
             
         }
         
-
+        public Dictionary<string,string> Diccionario()
+        {
+            return Variables;
+        }
+        
         /// <summary>
         /// Verifica si el nodo actual tiene hijos
         /// </summary>
