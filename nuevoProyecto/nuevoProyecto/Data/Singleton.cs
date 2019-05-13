@@ -178,5 +178,19 @@ namespace nuevoProyecto.Data
 
             return Diccionario;//devolver diccionario
         }
+
+        public List<TreeView> TreeView()
+        {
+            var Devolver = new List<TreeView>();
+            foreach (var item in DiB)
+            {
+                var Nuevo = new TreeView()
+                {
+                    Tabla = item.Key
+                };
+                Devolver.Add(Nuevo);
+            }
+            return Devolver;
+        }
     }
 }

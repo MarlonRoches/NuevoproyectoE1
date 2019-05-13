@@ -9,7 +9,7 @@ namespace nuevoProyecto.Models
     {
         public string Id { get; set; }
         public string Tabla { get; set; }
-
+        public Dictionary<string, string> Variables = new Dictionary<string, string>();
         string[] Nombres = new string[9];
         public string Int1 { get; set; }
         public string Int2 { get; set; }

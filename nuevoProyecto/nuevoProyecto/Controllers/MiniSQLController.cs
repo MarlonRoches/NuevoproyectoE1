@@ -45,13 +45,18 @@ namespace nuevoProyecto.Controllers
             {
                 //Enviar a singletone
                 Singleton.Instance.Input(collection["Data"]);
-                return RedirectToAction("Index");
+                return RedirectToAction("Consola");
             }
             catch
             {
                 return View();
             }
+        }  // GET: MiniSQL/Create
+        public ActionResult TreeView()
+        {
+            return View(Singleton.Instance.TreeView());
         }
+
         
     }
 }

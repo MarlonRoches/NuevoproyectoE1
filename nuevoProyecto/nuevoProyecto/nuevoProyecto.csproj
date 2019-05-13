@@ -136,6 +136,7 @@
     <Compile Include="Models\Global.cs" />
     <Compile Include="Models\NodoB.cs" />
     <Compile Include="Models\TextArea.cs" />
+    <Compile Include="Models\TreeView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +176,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\MiniSQL\Consola.cshtml" />
+    <Content Include="Views\MiniSQL\TreeView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
