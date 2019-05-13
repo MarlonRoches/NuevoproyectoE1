@@ -327,6 +327,12 @@ namespace nuevoProyecto.Data
 
                                 if (split[split.Length - 4] == PalabrasCustom[4] || split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
                                 {
+                                var Sinselect = captura.Split(' ');
+                                var tala = Sinselect[Sinselect.Length - 5];
+                                var vBuscar = Sinselect[Sinselect.Length - 3];
+                                var vValor = Sinselect[Sinselect.Length-1];
+
+                                StarWhere(tala, vBuscar,vValor);
                                 }
                                 else
                                 {
@@ -384,12 +390,11 @@ namespace nuevoProyecto.Data
         }
         
         #region SelectMetodos
-        //Casos Select
         public void Star(string tabla) //*
         {
 
         }
-        public void StarWhere(string tabla, string datoclave)//*Where
+        public void StarWhere(string tabla, string Variable, string Valor)//*Where
         {
 
         }
@@ -401,6 +406,27 @@ namespace nuevoProyecto.Data
         public void DataWhere(string tabla,string variables, string[] Clave)//campos*    recibe
         {
 
+        }
+
+        public List<Global> SimpleSelect(string Tabla, string [] Datos)
+        {
+            try
+            {
+                var listasimple = new List<Global>();
+                var VariablesMolde = DiB[Tabla].Variables;
+                foreach (var item in Datos)
+                {
+
+                }
+
+
+                return listasimple;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
         #endregion
 
