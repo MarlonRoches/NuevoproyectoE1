@@ -39,15 +39,7 @@ namespace nuevoProyecto.Data
             PalabrasReservadas[6] = "Insert Into";
             PalabrasReservadas[7] = "Value";
             PalabrasReservadas[8] = "Go";
-            //PalabrasCustom[0] = "Select";
-            //PalabrasCustom[1] = "From";
-            //PalabrasCustom[2] = "Delete";
-            //PalabrasCustom[3] = "Where";
-            //PalabrasCustom[4] = "Create Table";
-            //PalabrasCustom[5] = "Drop Table";
-            //PalabrasCustom[6] = "Insert Into";
-            //PalabrasCustom[7] = "Value";
-            //PalabrasCustom[8] = "Go";
+       
         }
         #endregion
 
@@ -297,7 +289,6 @@ namespace nuevoProyecto.Data
                 } //Insert Into  ------------------ LISTO -----------------------------
 
                 #endregion
-
                 if (Palabra == PalabrasCustom[0])
                 {
                    // try

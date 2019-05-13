@@ -66,15 +66,18 @@ namespace nuevoProyecto.Controllers
             string filePath = string.Empty;
             if (postedFile != null)
             {
+                string Nuevo = "";
                 string path = Server.MapPath("~/archivo/");
+                string[] Direccion = path.Split('\\');
                 if (!Directory.Exists(path))
                 {
                     Directory.CreateDirectory(path);
                 }
-                filePath = path + Path.GetFileName(postedFile.FileName);
+                Nuevo = Direccion[0] + "/" + Direccion[1] + "/" + Direccion[2] + "/" + Direccion[3] + "/" + Direccion[4] + "/" + Direccion[5]+"/";
+                filePath = Nuevo + Path.GetFileName(postedFile.FileName);
                 if (Singleton.Instance.Ini == true)
                 {
-                    Singleton.Instance.LlenarPalabrasReservadas("C:/Users/Usuario/Documents/NuevoproyectoE1/nuevoProyecto/KeyWords.txt");
+                    Singleton.Instance.LlenarPalabrasReservadas(filePath);
                     Singleton.Instance.Ini = false;
                     return RedirectToAction("Consola");
                 }
