@@ -237,13 +237,15 @@ namespace nuevoProyecto.Data
 
         #endregion
 
-        public void Input(string Linea)
+        public void Input(string captura)
         {
-            string captura = Linea;
-            string[] arreglo = captura.Split(' ');
-            foreach (string Palabra in arreglo)
+           
+            string[] Arreglo = captura.Split(' ');
+            foreach (string Palabra in Arreglo)
             {
-                string Concatenada = Palabra + " " + arreglo[1];
+                #region Listos
+
+                string Concatenada = Palabra + " " + Arreglo[1];
                 if (Concatenada == PalabrasCustom[4])// create Table
                 {
                     try
@@ -255,7 +257,7 @@ namespace nuevoProyecto.Data
                         captura = captura.Substring(0, ubicacion2);
 
 
-                        Creat_Table(arreglo[2], SplitCreate(captura));
+                        Creat_Table(Arreglo[2], SplitCreate(captura));
 
                     }
                     catch (Exception)
@@ -268,8 +270,8 @@ namespace nuevoProyecto.Data
                 {
                     try
                     {
-                        DiB.Remove(arreglo[2]);
-                        DiBPlus.Remove(arreglo[2]);
+                        DiB.Remove(Arreglo[2]);
+                        DiBPlus.Remove(Arreglo[2]);
                     }
                     catch (Exception)
                     {
@@ -279,8 +281,8 @@ namespace nuevoProyecto.Data
                 }// Drop Table   ------------------ LISTO -----------------------------
                 if (Concatenada == PalabrasCustom[6]) //Insert 
                 {
-                    string Key = arreglo[2];//llave para el diccionario
-                     Global Nuevo = LlenarObjeto(arreglo[3], arreglo[5], Key);
+                    string Key = Arreglo[2];//llave para el diccionario
+                     Global Nuevo = LlenarObjeto(Arreglo[3], Arreglo[5], Key);
                     try
                     {
                         
@@ -294,43 +296,37 @@ namespace nuevoProyecto.Data
                     }
                 } //Insert Into  ------------------ LISTO -----------------------------
 
+                #endregion
 
 
                 if (Palabra == PalabrasCustom[0])
                 {
                     try
                     {
-                        if (arreglo[arreglo.Length - 1] == PalabrasCustom[8])
+                        var split = Arreglo;
+                        switch (split[1])
                         {
+                            case "*": // * PENIENTE
 
-                            string Task = "";
-                            string Tabla = "";
-                            string Id = "";
-                            int n = 1;
-                            //Selec-> From
-                            while (arreglo[n] != PalabrasCustom[1])
-                            {
-                                Task = Task + " " + arreglo[n];
-                                n++;
-                            }
-                            n++;
-                            //From-> where
-                            Tabla = arreglo[n];
-                            n = n + 2;
-                            //Where-> Go
-                            try
-                            {
+                                if (split[split.Length - 4] == "where" || split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
+                                {
 
-                                Id = arreglo[n + 2];
+                                }
+                                else
+                                {
 
-                            }
-                            catch (Exception)
-                            {
+                                }
+                                break;
+                            default: // CAMPO
+                                if (split[split.Length-4]=="where" || split[split.Length - 4] == "WHERE" || split[split.Length - 4] == "Where")
+                                {
 
-                                throw;
-                            }
-                            SelectLista = new List<Global>();
-                            //Select(Task, Tabla, Id, DiBPlus[Tabla]);
+                                }
+                                else
+                                {
+
+                                }
+                                break;
                         }
                     }
                     catch (Exception)
@@ -347,7 +343,29 @@ namespace nuevoProyecto.Data
                 }//Delete From <Tabla> Where Id//Aplicar delete del arbol
                 break;
             }
+        }
+
+
+        #region SelectMetodos
+        //Casos Select
+        public void Star() //*
+        {
 
         }
+        public void StarWhere()//*Where
+        {
+
+        }
+
+        public void Data()//campos
+        {
+
+        }
+        public void DataWhere()//campos*
+        {
+
+        }
+        #endregion
+
     }
 }
